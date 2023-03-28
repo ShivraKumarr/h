@@ -1,4 +1,4 @@
-# h
+# python code
 from flask import Flask
 from flask_graphql import GraphQLView
 from graphene import ObjectType, String, Int, List, Schema
@@ -46,4 +46,25 @@ app.add_url_rule(
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
+
+from flask_keycloak import FlaskKeycloak
+
+app = Flask(__name__)
+keycloak = FlaskKeycloak()
+keycloak.init_app(app)
+
+# protected routes
+@app.route('/protected')
+@keycloak.protected()
+def protected():
+    return 'This is a protected route'
+
+# login route
+@app.route('/login')
+@keycloak.login()
+def login():
+    return 'You have been logged in'
+
 
